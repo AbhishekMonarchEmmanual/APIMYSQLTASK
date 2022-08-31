@@ -1,0 +1,46 @@
+from flask import Flask, request,jsonify
+app = Flask(__name__)
+@app.route('/abc/create_database', methods= ['GET', 'POST'])
+def test1 ():
+    if request.method == "POST" :
+
+        import mysql.connector
+        db = mysql.connector.connect(host="localhost", passwd="Abhi123", user="root")
+        cursor = db.cursor()
+        a = request.json['database']
+        cursor.execute(str(a))
+        return jsonify("database created!!!")
+
+@app.route('/abc123', methods= ['GET', 'POST'])
+def create_table():
+    if request.method == "POST" :
+
+        import mysql.connector
+        db = mysql.connector.connect(host="localhost", passwd="Abhi123", user="root")
+        cursor = db.cursor()
+        use_database = request.json["target_database"]
+        cursor.execute(str(use_database))
+        table = request.json("create_table")
+        cursor.execute(str(table))
+        
+#code provided by shivanada 
+@app.route('/insert',methods = ['POST'])
+def insert():
+    if request.method=='POST':
+        import mysql.connector
+        db = mysql.connector.connect(host="localhost", passwd="Abhi123", user="root")
+        cursor = db.cursor()
+        name = request.json['name']
+        number = request.json['number']
+        cursor.execute(name)
+        cursor.execute(number)
+        db.commit()
+        return jsonify(str('succesfully inserted'))
+if __name__ == '__main__' :
+    app.run()
+
+
+
+
+
+
